@@ -1,0 +1,47 @@
+---
+title: "Templates"
+description: "How templates work and how to create your own."
+---
+
+Templates are JSON schemas that define how Kiriku extracts data from a document.
+
+## Built-in Templates
+
+Kiriku comes with a set of built-in templates for common documents (CNI, Passport, etc.). These templates are maintained by Kiriku and updated regularly to handle new document versions.
+
+You can list all available templates using the API:
+
+```bash
+curl https://api.kiriku.app/v1/templates \
+  -H "Authorization: Bearer sk_live_..."
+```
+
+## Custom Templates (Growth Plan)
+
+If you need to extract data from a specific document type that isn't supported by default, you can create a custom template.
+
+### Creating a Template
+
+A template consists of:
+- **Slug**: Unique identifier (e.g., `my-custom-form`)
+- **Fields**: List of fields to extract (key, type, description)
+- **Validation**: Rules for validating the extracted data (regex, min/max length)
+
+```json
+{
+  "name": "Custom Invoice",
+  "slug": "custom-invoice",
+  "fields": [
+    {
+      "key": "invoice_number",
+      "type": "string",
+      "required": true
+    },
+    {
+      "key": "total_amount",
+      "type": "number",
+      "required": true
+    }
+  ]
+}
+```

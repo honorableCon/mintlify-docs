@@ -1,0 +1,45 @@
+---
+title: "Webhooks"
+description: "Listen to events on your Kiriku account so your integration can automatically trigger reactions."
+---
+
+Kiriku uses webhooks to notify your application when an event happens in your account. Webhooks are particularly useful for asynchronous events like when a long-running extraction is completed or when a subscription payment succeeds.
+
+## Verifying Signatures
+
+Kiriku signs the webhook events it sends to your endpoints by including a signature in each event's `x-webhook-signature` header. This allows you to verify that the events were sent by Kiriku, not by a third party.
+
+### 1. Extract the signature
+
+The signature is sent in the `x-webhook-signature` header.
+
+### 2. Compute the HMAC
+
+Compute an HMAC with the SHA256 hash function. Use the endpoint’s signing secret as the key, and use the raw request body as the message.
+
+### 3. Compare the signatures
+
+Compare the signature in the header to the expected signature. If a signature matches, compute the difference between the current timestamp and the received timestamp, then decide if the difference is within your tolerance.
+
+<CodeGroup>
+```javascript Node.js
+const crypto = require('crypto');
+
+const secret = 'whsec_...';
+
+// Using Express
+app.post('/webhook', bodyParser.raw({type: 'application/json'}), (req, res) => {
+  const signature = req.headers['x-webhook-signature'];
+  const payload = req.body;
+
+  const expectedSignature = crypto
+    .createHmac('sha256', secret)
+    .update(payload)
+    .digest('hex');
+
+  if (signature === expectedSignature) {
+    // Verified!
+  }
+});
+```
+</CodeGroup>

@@ -1,97 +1,73 @@
 ---
 title: "Introduction"
-description: "Welcome to the new home for your documentation"
+description: "Documentation développeurs Kiriku"
 ---
 
-## Setting up
+## Démarrer
 
-Get your documentation site up and running in minutes.
+Commencez par récupérer un token, créer une clé API, puis exécuter votre première extraction.
 
 <Card
-  title="Start here"
+  title="Quickstart Kiriku"
   icon="rocket"
   href="/quickstart"
   horizontal
 >
-  Follow our three step quickstart guide.
+  Authentification, clés API, premier appel d’extraction.
 </Card>
 
-## Make it yours
+## API Reference
 
-Design a docs site that looks great and empowers your users.
+Référence des endpoints Billing (crédits, factures, abonnements internes) et endpoints admin.
 
 <Columns cols={2}>
   <Card
-    title="Edit locally"
-    icon="pen-to-square"
-    href="/development"
-  >
-    Edit your docs locally and preview them in real time.
-  </Card>
-  <Card
-    title="Customize your site"
-    icon="palette"
-    href="/essentials/settings"
-  >
-    Customize the design and colors of your site to match your brand.
-  </Card>
-    <Card
-    title="Set up navigation"
-    icon="map"
-    href="/essentials/navigation"
-  >
-    Organize your docs to help users find what they need and succeed with your product.
-  </Card>
-  <Card
-    title="API documentation"
-    icon="terminal"
+    title="Référence Billing"
+    icon="credit-card"
     href="/api-reference/introduction"
   >
-    Auto-generate API documentation from OpenAPI specifications.
+    Crédits, factures, abonnements internes, admin billing.
+  </Card>
+  <Card
+    title="Créer une session de paiement (pack)"
+    icon="square-code"
+    href="/api-reference/endpoint/create"
+  >
+    Démarrer un paiement DexPay pour un pack de crédits.
+  </Card>
+    <Card
+    title="Lister mes factures"
+    icon="file-text"
+    href="/api-reference/endpoint/get"
+  >
+    Récupérer l’historique des factures (abonnements internes).
+  </Card>
+  <Card
+    title="Annuler un abonnement"
+    icon="ban"
+    href="/api-reference/endpoint/delete"
+  >
+    Annuler le renouvellement (les avantages restent jusqu’à endDate).
   </Card>
 </Columns>
 
-## Create beautiful pages
+## Développement docs
 
-Everything you need to create world-class documentation.
+Lancer et prévisualiser les docs en local.
 
 <Columns cols={2}>
   <Card
-    title="Write with MDX"
-    icon="pen-fancy"
-    href="/essentials/markdown"
+    title="Développement local"
+    icon="rectangle-terminal"
+    href="/development"
   >
-    Use MDX to style your docs pages.
+    Démarrer Mintlify en local et prévisualiser les changements.
   </Card>
   <Card
-    title="Code samples"
-    icon="code"
-    href="/essentials/code"
+    title="Configuration"
+    icon="gear"
+    href="/essentials/settings"
   >
-    Add sample code to demonstrate how to use your product.
-  </Card>
-  <Card
-    title="Images"
-    icon="image"
-    href="/essentials/images"
-  >
-    Display images and other media.
-  </Card>
-  <Card
-    title="Reusable snippets"
-    icon="recycle"
-    href="/essentials/reusable-snippets"
-  >
-    Write once and reuse across your docs.
+    Ajuster le thème, le nom du site et la navigation.
   </Card>
 </Columns>
-
-## Need inspiration?
-
-<Card
-  title="See complete examples"
-  icon="stars"
-  href="https://mintlify.com/customers"
->
-  Browse our showcase of exceptional documentation sites.
-</Card>

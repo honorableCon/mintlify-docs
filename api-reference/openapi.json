@@ -2,206 +2,213 @@
   "openapi": "3.1.0",
   "info": {
     "title": "Kiriku API",
-    "description": "Kiriku API - Document Intelligence Platform. This spec focuses on Billing (credits, invoices, internal subscriptions) and admin billing endpoints.",
-    "version": "1.0.0"
+    "description": "Intelligent Document Processing API for West Africa. Extract structured data from ID cards, passports, and more.",
+    "version": "1.0.0",
+    "contact": {
+      "email": "contact@kiriku.sn"
+    }
   },
   "servers": [
-    { "url": "http://localhost:3009" },
-    { "url": "https://api.kiriku.app" }
+    {
+      "url": "https://api.kiriku.app",
+      "description": "Production API"
+    }
   ],
   "security": [
-    { "bearerAuth": [] }
+    {
+      "bearerAuth": []
+    }
   ],
   "paths": {
-    "/v1/billing/checkout": {
+    "/v1/extract": {
       "post": {
-        "tags": ["Billing"],
-        "summary": "Create a checkout session for a credit pack",
+        "summary": "Extract Data (Synchronous)",
+        "description": "Extract structured data from a document image or PDF synchronously.",
         "requestBody": {
-          "required": true,
           "content": {
-            "application/json": {
-              "schema": { "$ref": "#/components/schemas/CreateCheckoutSessionRequest" }
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary",
+                    "description": "The document file (JPEG, PNG, WEBP, PDF). Max 10MB."
+                  },
+                  "fileBack": {
+                    "type": "string",
+                    "format": "binary",
+                    "description": "Optional back side of the document."
+                  },
+                  "documentType": {
+                    "type": "string",
+                    "description": "Slug of the template to use (e.g. 'cni-senegal') or 'auto'."
+                  },
+                  "fraudCheck": {
+                    "type": "boolean",
+                    "default": false
+                  },
+                  "returnConfidence": {
+                    "type": "boolean",
+                    "default": false
+                  },
+                  "returnRawText": {
+                    "type": "boolean",
+                    "default": false
+                  }
+                },
+                "required": ["file", "documentType"]
+              }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "Checkout session created",
+            "description": "Successful extraction",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/CreateCheckoutSessionResponse" }
+                "schema": {
+                  "$ref": "#/components/schemas/ExtractionResult"
+                }
               }
             }
-          },
-          "400": {
-            "description": "Bad request",
-            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } }
           }
         }
       }
     },
-    "/v1/billing/subscribe": {
+    "/v1/extract/async": {
       "post": {
-        "tags": ["Billing"],
-        "summary": "Create an internal subscription and initial invoice payment session",
+        "summary": "Extract Data (Asynchronous)",
+        "description": "Queue a document for extraction. Returns an ID to poll status or receive webhook.",
         "requestBody": {
-          "required": true,
           "content": {
-            "application/json": {
-              "schema": { "$ref": "#/components/schemas/CreateSubscriptionRequest" }
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary"
+                  },
+                  "documentType": {
+                    "type": "string"
+                  }
+                },
+                "required": ["file", "documentType"]
+              }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "Subscription created",
+            "description": "Queued successfully",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/CreateSubscriptionResponse" }
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "extractionId": { "type": "string" },
+                    "status": { "type": "string", "example": "queued" }
+                  }
+                }
               }
             }
-          },
-          "400": {
-            "description": "Bad request",
-            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } }
           }
         }
       }
     },
-    "/v1/billing/subscription/active": {
+    "/v1/templates": {
       "get": {
-        "tags": ["Billing"],
-        "summary": "Get active subscription for current user",
+        "summary": "List Templates",
+        "description": "Get all available document templates (built-in + custom).",
         "responses": {
           "200": {
-            "description": "Active subscription",
-            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Subscription" } } }
+            "description": "List of templates",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/Template" }
+                }
+              }
+            }
           }
         }
       }
     },
-    "/v1/billing/subscription/cancel": {
-      "post": {
-        "tags": ["Billing"],
-        "summary": "Cancel subscription (does not immediately downgrade; expires at endDate)",
-        "requestBody": {
-          "required": false,
-          "content": {
-            "application/json": {
-              "schema": { "$ref": "#/components/schemas/CancelSubscriptionRequest" }
-            }
-          }
-        },
+    "/v1/users/me": {
+      "get": {
+        "summary": "Get User Profile",
+        "description": "Retrieve current user profile, plan, and credit balance.",
         "responses": {
           "200": {
-            "description": "Subscription cancelled",
-            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/CancelSubscriptionResponse" } } }
+            "description": "User profile",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/User" }
+              }
+            }
           }
         }
       }
     },
     "/v1/billing/invoices": {
       "get": {
-        "tags": ["Billing"],
-        "summary": "List invoices for current user",
+        "summary": "List Invoices",
+        "description": "Get history of invoices generated for subscriptions.",
         "responses": {
           "200": {
-            "description": "Invoices list",
+            "description": "List of invoices",
             "content": {
               "application/json": {
-                "schema": { "type": "array", "items": { "$ref": "#/components/schemas/Invoice" } }
+                "schema": {
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/Invoice" }
+                }
               }
             }
           }
         }
       }
     },
-    "/v1/billing/transactions": {
+    "/v1/webhooks": {
       "get": {
-        "tags": ["Billing"],
-        "summary": "List transactions for current user",
-        "parameters": [
-          { "name": "limit", "in": "query", "schema": { "type": "integer" } },
-          { "name": "offset", "in": "query", "schema": { "type": "integer" } },
-          { "name": "status", "in": "query", "schema": { "type": "string" } },
-          { "name": "startDate", "in": "query", "schema": { "type": "string" } },
-          { "name": "endDate", "in": "query", "schema": { "type": "string" } }
-        ],
+        "summary": "List Webhooks",
         "responses": {
           "200": {
-            "description": "Transactions list",
-            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/PaginatedTransactions" } } }
+            "description": "List of configured webhooks",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/WebhookConfig" }
+                }
+              }
+            }
           }
         }
-      }
-    },
-    "/v1/billing/admin/invoices": {
-      "get": {
-        "tags": ["Admin Billing"],
-        "summary": "Admin: list invoices across all users",
-        "parameters": [
-          { "name": "limit", "in": "query", "schema": { "type": "integer" } },
-          { "name": "offset", "in": "query", "schema": { "type": "integer" } },
-          { "name": "status", "in": "query", "schema": { "type": "string" } },
-          { "name": "startDate", "in": "query", "schema": { "type": "string" } },
-          { "name": "endDate", "in": "query", "schema": { "type": "string" } }
-        ],
-        "responses": {
-          "200": {
-            "description": "Invoices list",
-            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/PaginatedAdminInvoices" } } }
-          }
-        }
-      }
-    },
-    "/v1/billing/admin/transactions": {
-      "get": {
-        "tags": ["Admin Billing"],
-        "summary": "Admin: list transactions across all users",
-        "parameters": [
-          { "name": "limit", "in": "query", "schema": { "type": "integer" } },
-          { "name": "offset", "in": "query", "schema": { "type": "integer" } },
-          { "name": "status", "in": "query", "schema": { "type": "string" } },
-          { "name": "startDate", "in": "query", "schema": { "type": "string" } },
-          { "name": "endDate", "in": "query", "schema": { "type": "string" } }
-        ],
-        "responses": {
-          "200": {
-            "description": "Transactions list",
-            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/PaginatedAdminTransactions" } } }
-          }
-        }
-      }
-    },
-    "/v1/billing/webhook": {
+      },
       "post": {
-        "tags": ["Billing"],
-        "summary": "DexPay webhook (checkout completion, failures, cancellations)",
-        "parameters": [
-          {
-            "name": "x-webhook-signature",
-            "in": "header",
-            "required": true,
-            "schema": { "type": "string" }
-          }
-        ],
+        "summary": "Create Webhook",
         "requestBody": {
-          "required": true,
-          "content": { "application/json": { "schema": { "type": "object" } } }
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "url": { "type": "string" },
+                  "events": { "type": "array", "items": { "type": "string" } }
+                },
+                "required": ["url", "events"]
+              }
+            }
+          }
         },
         "responses": {
-          "200": { "description": "Webhook processed" },
-          "401": {
-            "description": "Invalid signature",
-            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } }
-          },
-          "400": {
-            "description": "Webhook misconfigured or invalid payload",
-            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } }
+          "201": {
+            "description": "Webhook created"
           }
-        },
-        "security": []
+        }
       }
     }
   },
@@ -210,170 +217,61 @@
       "bearerAuth": {
         "type": "http",
         "scheme": "bearer",
-        "bearerFormat": "JWT"
+        "bearerFormat": "JWT/API Key"
       }
     },
     "schemas": {
-      "Error": {
-        "type": "object",
-        "properties": { "message": { "type": "string" } },
-        "required": ["message"]
-      },
-      "CreateCheckoutSessionRequest": {
-        "type": "object",
-        "properties": { "planId": { "type": "string" } },
-        "required": ["planId"]
-      },
-      "CreateCheckoutSessionResponse": {
+      "ExtractionResult": {
         "type": "object",
         "properties": {
-          "paymentUrl": { "type": "string" },
-          "reference": { "type": "string" }
-        },
-        "required": ["paymentUrl", "reference"]
+          "referenceId": { "type": "string" },
+          "status": { "type": "string", "enum": ["completed", "failed"] },
+          "documentType": { "type": "string" },
+          "result": {
+            "type": "object",
+            "properties": {
+              "extractedData": { "type": "object" },
+              "globalConfidence": { "type": "number" }
+            }
+          },
+          "creditsUsed": { "type": "number" }
+        }
       },
-      "CreateSubscriptionRequest": {
+      "Template": {
         "type": "object",
         "properties": {
-          "plan": { "type": "string" },
-          "phone": { "type": "string" }
-        },
-        "required": ["plan"]
+          "slug": { "type": "string" },
+          "name": { "type": "string" },
+          "category": { "type": "string" },
+          "fields": { "type": "array", "items": { "type": "object" } }
+        }
       },
-      "CreateSubscriptionResponse": {
-        "type": "object",
-        "properties": {
-          "subscription": { "$ref": "#/components/schemas/Subscription" },
-          "paymentUrl": { "type": "string", "nullable": true }
-        },
-        "required": ["subscription"]
-      },
-      "CancelSubscriptionRequest": {
-        "type": "object",
-        "properties": { "subscriptionId": { "type": "string", "nullable": true } }
-      },
-      "CancelSubscriptionResponse": {
-        "type": "object",
-        "properties": { "subscription": { "$ref": "#/components/schemas/Subscription" } },
-        "required": ["subscription"]
-      },
-      "Subscription": {
-        "type": "object",
-        "properties": {
-          "id": { "type": "string" },
-          "userId": { "type": "string" },
-          "planId": { "type": "string" },
-          "status": { "type": "string", "enum": ["active", "pending", "cancelled", "expired", "past_due"] },
-          "interval": { "type": "string", "enum": ["month", "year"] },
-          "price": { "type": "number" },
-          "currency": { "type": "string" },
-          "startDate": { "type": "string" },
-          "endDate": { "type": "string" }
-        },
-        "required": ["id", "planId", "status", "interval", "price", "currency", "startDate", "endDate"]
-      },
-      "Invoice": {
-        "type": "object",
-        "properties": {
-          "_id": { "type": "string" },
-          "reference": { "type": "string" },
-          "amount": { "type": "number" },
-          "currency": { "type": "string" },
-          "status": { "type": "string", "enum": ["pending", "paid", "failed", "cancelled"] },
-          "dueDate": { "type": "string" },
-          "paidAt": { "type": "string", "nullable": true },
-          "paymentUrl": { "type": "string", "nullable": true },
-          "createdAt": { "type": "string" }
-        },
-        "required": ["_id", "reference", "amount", "currency", "status", "dueDate", "createdAt"]
-      },
-      "Transaction": {
-        "type": "object",
-        "properties": {
-          "id": { "type": "string" },
-          "reference": { "type": "string" },
-          "amount": { "type": "number" },
-          "currency": { "type": "string" },
-          "credits": { "type": "number" },
-          "status": { "type": "string" },
-          "type": { "type": "string" },
-          "provider": { "type": "string", "nullable": true },
-          "paymentMethod": { "type": "string", "nullable": true },
-          "failureReason": { "type": "string", "nullable": true },
-          "processedAt": { "type": "string", "nullable": true },
-          "createdAt": { "type": "string" }
-        },
-        "required": ["id", "reference", "amount", "currency", "credits", "status", "type", "createdAt"]
-      },
-      "PaginatedTransactions": {
-        "type": "object",
-        "properties": {
-          "data": { "type": "array", "items": { "$ref": "#/components/schemas/Transaction" } },
-          "total": { "type": "integer" }
-        },
-        "required": ["data", "total"]
-      },
-      "AdminUserSummary": {
+      "User": {
         "type": "object",
         "properties": {
           "id": { "type": "string" },
           "email": { "type": "string" },
-          "firstName": { "type": "string", "nullable": true },
-          "lastName": { "type": "string", "nullable": true }
-        },
-        "required": ["id", "email"]
+          "plan": { "type": "string" },
+          "credits": { "type": "number" }
+        }
       },
-      "AdminInvoice": {
+      "Invoice": {
+        "type": "object",
+        "properties": {
+          "reference": { "type": "string" },
+          "amount": { "type": "number" },
+          "status": { "type": "string", "enum": ["pending", "paid", "cancelled"] },
+          "paymentUrl": { "type": "string" }
+        }
+      },
+      "WebhookConfig": {
         "type": "object",
         "properties": {
           "id": { "type": "string" },
-          "reference": { "type": "string" },
-          "amount": { "type": "number" },
-          "currency": { "type": "string" },
-          "status": { "type": "string" },
-          "dueDate": { "type": "string" },
-          "paidAt": { "type": "string", "nullable": true },
-          "paymentUrl": { "type": "string", "nullable": true },
-          "createdAt": { "type": "string" },
-          "user": { "$ref": "#/components/schemas/AdminUserSummary" },
-          "subscription": { "type": "object", "nullable": true }
-        },
-        "required": ["id", "reference", "amount", "currency", "status", "dueDate", "createdAt", "user"]
-      },
-      "PaginatedAdminInvoices": {
-        "type": "object",
-        "properties": {
-          "data": { "type": "array", "items": { "$ref": "#/components/schemas/AdminInvoice" } },
-          "total": { "type": "integer" }
-        },
-        "required": ["data", "total"]
-      },
-      "AdminTransaction": {
-        "type": "object",
-        "properties": {
-          "id": { "type": "string" },
-          "reference": { "type": "string" },
-          "amount": { "type": "number" },
-          "currency": { "type": "string" },
-          "credits": { "type": "number" },
-          "status": { "type": "string" },
-          "type": { "type": "string" },
-          "provider": { "type": "string", "nullable": true },
-          "paymentMethod": { "type": "string", "nullable": true },
-          "failureReason": { "type": "string", "nullable": true },
-          "processedAt": { "type": "string", "nullable": true },
-          "createdAt": { "type": "string" },
-          "user": { "$ref": "#/components/schemas/AdminUserSummary" }
-        },
-        "required": ["id", "reference", "amount", "currency", "credits", "status", "type", "createdAt", "user"]
-      },
-      "PaginatedAdminTransactions": {
-        "type": "object",
-        "properties": {
-          "data": { "type": "array", "items": { "$ref": "#/components/schemas/AdminTransaction" } },
-          "total": { "type": "integer" }
-        },
-        "required": ["data", "total"]
+          "url": { "type": "string" },
+          "events": { "type": "array", "items": { "type": "string" } },
+          "secret": { "type": "string" }
+        }
       }
     }
   }
