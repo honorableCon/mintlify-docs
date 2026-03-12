@@ -1,0 +1,17 @@
+---
+title: "Mobile handoff"
+description: "Transférer un fichier depuis un mobile"
+---
+
+Le mobile handoff permet d’envoyer une photo depuis un téléphone vers votre backend.
+
+## Étapes
+
+1. Créez une session : `POST /v1/mobile-handoff/session`
+2. Vérifiez le statut : `GET /v1/mobile-handoff/session/:sessionId`
+3. Upload : `POST /v1/mobile-handoff/upload/:sessionId` (form-data, `file`)
+4. Récupérez le fichier : `GET /v1/mobile-handoff/consume/:sessionId`
+
+## Limites
+
+- Taille max : 10 MB

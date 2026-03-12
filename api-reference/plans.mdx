@@ -1,0 +1,25 @@
+---
+title: "Plans"
+description: "Plans d’abonnement et packs"
+---
+
+## Endpoints
+
+| Méthode | Path | Auth |
+| :--- | :--- | :--- |
+| GET | `/v1/plans` | Public |
+| GET | `/v1/plans/:id` | Public |
+| GET | `/v1/plans/compare` | Public |
+| GET | `/v1/plans/upgrade` | JWT |
+| GET | `/v1/plans/downgrade` | JWT |
+| POST | `/v1/plans` | JWT |
+| PUT | `/v1/plans/:id` | JWT |
+| DELETE | `/v1/plans/:id` | JWT |
+| PATCH | `/v1/plans/:id/status` | JWT |
+| PATCH | `/v1/plans/:id/sync` | JWT |
+
+## Exemple
+
+```bash
+curl https://api.kiriku.app/v1/plans
+```

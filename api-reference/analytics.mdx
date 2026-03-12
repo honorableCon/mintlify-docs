@@ -1,0 +1,20 @@
+---
+title: "Analytics"
+description: "Vue d’ensemble et exports"
+---
+
+## Endpoints
+
+| Méthode | Path | Auth |
+| :--- | :--- | :--- |
+| GET | `/v1/analytics` | JWT |
+| GET | `/v1/analytics/timeseries` | JWT |
+| GET | `/v1/analytics/export` | JWT |
+| GET | `/v1/analytics/admin/overview` | Admin |
+
+## Exemple
+
+```bash
+curl https://api.kiriku.app/v1/analytics/timeseries?granularity=day \
+  -H "Authorization: Bearer <JWT>"
+```

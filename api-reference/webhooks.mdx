@@ -1,0 +1,27 @@
+---
+title: "Webhooks"
+description: "Configurer des webhooks Kiriku"
+---
+
+## Endpoints
+
+| Méthode | Path | Auth |
+| :--- | :--- | :--- |
+| GET | `/v1/webhooks` | API key ou JWT (plan starter) |
+| POST | `/v1/webhooks` | API key ou JWT (plan starter) |
+| PUT | `/v1/webhooks/:id` | API key ou JWT (plan starter) |
+| DELETE | `/v1/webhooks/:id` | API key ou JWT (plan starter) |
+| POST | `/v1/webhooks/:id/test` | API key ou JWT (plan starter) |
+
+## Exemple création
+
+```bash
+curl -X POST https://api.kiriku.app/v1/webhooks \
+  -H "X-API-Key: sk_live_..." \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "My webhook",
+    "url": "https://example.com/webhook",
+    "events": ["extraction.completed"]
+  }'
+```

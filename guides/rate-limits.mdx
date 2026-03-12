@@ -1,0 +1,16 @@
+---
+title: "Rate limits"
+description: "Limites de requêtes par plan, clé et IP"
+---
+
+Les limites sont appliquées par minute, par plan, par clé API et par IP.
+
+| Plan | Limite / min |
+| :--- | :--- |
+| free | 10 |
+| starter | 60 |
+| growth | 300 |
+| pro | 1000 |
+| enterprise | 2000 |
+
+Si vous dépassez la limite, l’API retourne `429 Too Many Requests`.

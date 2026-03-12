@@ -1,38 +1,37 @@
 ---
 title: "Authentication"
-description: "How to authenticate your requests to the Kiriku API"
+description: "JWT pour la console, API keys pour vos intégrations"
 ---
 
-The Kiriku API uses API keys to authenticate requests. You can view and manage your API keys in the [Kiriku Dashboard](https://app.kiriku.app/dashboard/api-keys).
+Kiriku supporte deux modes d’authentification.
 
-Your API keys carry many privileges, so be sure to keep them secure! Do not share your secret API keys in publicly accessible areas such as GitHub, client-side code, and so forth.
+## API key (recommandé pour le backend)
 
-## API Keys
+Vous pouvez envoyer la clé via `X-API-Key` ou via `Authorization: Bearer`.
 
-Authentication to the API is performed via HTTP Basic Auth. Provide your API key as the basic auth username value. You do not need to provide a password.
-
-<CodeGroup>
-```bash cURL
+```bash
 curl https://api.kiriku.app/v1/users/me \
-  -H "Authorization: Bearer sk_live_xxxxxxxxxxxxxxxx"
+  -H "X-API-Key: sk_live_..."
 ```
 
-```javascript Node.js
-const response = await fetch('https://api.kiriku.app/v1/users/me', {
-  headers: {
-    'Authorization': 'Bearer sk_live_xxxxxxxxxxxxxxxx'
-  }
-});
-```
-</CodeGroup>
+Format des clés :
 
-If you need to authenticate via bearer auth (e.g., for a cross-origin request), use `-H "Authorization: Bearer sk_live_..."`.
-
-## API Key Format
-
-Kiriku API keys are prefixed with `sk_live_` or `sk_test_` depending on the environment.
-
-| Environment | Prefix | Description |
+| Environnement | Préfixe | Exemple |
 | :--- | :--- | :--- |
-| **Production** | `sk_live_` | Used for live data. Requests count towards your quota. |
-| **Test** | `sk_test_` | Used for testing. Does not affect live data (coming soon). |
+| Production | `sk_live_` | `sk_live_xxxxxxxxx` |
+| Test | `sk_test_` | `sk_test_xxxxxxxxx` |
+
+Vous pouvez aussi restreindre les clés par IP et définir une date d’expiration.
+
+## JWT (console / web app)
+
+```bash
+curl https://api.kiriku.app/v1/users/me \
+  -H "Authorization: Bearer <JWT>"
+```
+
+Le JWT est généré via `POST /v1/auth/login` et expire au bout de 24h.
+
+## Email vérifié
+
+L’email doit être vérifié avant de pouvoir vous connecter.

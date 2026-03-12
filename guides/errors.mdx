@@ -1,36 +1,38 @@
 ---
-title: "Errors"
-description: "Understanding Kiriku API error responses"
+title: "Gestion des erreurs"
+description: "Codes HTTP et structure des erreurs"
 ---
 
-The Kiriku API uses conventional HTTP response codes to indicate the success or failure of an API request.
-
-## HTTP Status Codes
-
-In general:
-- Codes in the `2xx` range indicate success.
-- Codes in the `4xx` range indicate an error that failed given the information provided (e.g., a required parameter was omitted, a charge failed, etc.).
-- Codes in the `5xx` range indicate an error with Kiriku's servers.
-
-| Code | Description |
-| :--- | :--- |
-| `200` | **OK** - Everything worked as expected. |
-| `400` | **Bad Request** - The request was unacceptable, often due to missing a required parameter. |
-| `401` | **Unauthorized** - No valid API key provided. |
-| `402` | **Request Failed** - The parameters were valid but the request failed. |
-| `403` | **Forbidden** - The API key doesn't have permissions to perform the request. |
-| `404` | **Not Found** - The requested resource doesn't exist. |
-| `429` | **Too Many Requests** - Too many requests hit the API too quickly. We recommend an exponential backoff of your requests. |
-| `500` | **Server Error** - Something went wrong on Kiriku's end. (These are rare.) |
-
-## Error Body
-
-All error responses return a JSON object with `statusCode`, `error`, and `message` properties.
+Kiriku retourne des codes HTTP standards. Les erreurs NestJS suivent ce format :
 
 ```json
 {
-  "message": "File size exceeds 10MB limit",
-  "error": "Bad Request",
-  "statusCode": 400
+  "statusCode": 400,
+  "message": "Invalid documentType",
+  "error": "Bad Request"
+}
+```
+
+## Codes fréquents
+
+| Code | Signification |
+| :--- | :--- |
+| 400 | Requête invalide |
+| 401 | Non authentifié |
+| 403 | Accès refusé |
+| 404 | Ressource introuvable |
+| 409 | Conflit (ex: clé déjà existante) |
+| 429 | Trop de requêtes |
+| 500 | Erreur serveur |
+
+## Erreur 429 (rate limit)
+
+Exemple :
+
+```json
+{
+  "statusCode": 429,
+  "message": "Rate limit exceeded (60/min)",
+  "error": "Too Many Requests"
 }
 ```

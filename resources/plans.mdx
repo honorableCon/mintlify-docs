@@ -1,0 +1,20 @@
+---
+title: "Plans"
+description: "Structure des plans et quotas"
+---
+
+Kiriku expose les plans via `GET /v1/plans`. Chaque plan contient :
+
+- `type`: `subscription` ou `pack`
+- `interval`: `month`, `year` ou `one_time`
+- `credits`: crédits inclus
+- `quotas`: limites mensuelles, journalières et simultanées
+- `creditCost`: coût estimé par crédit
+
+## Plans d’abonnement
+
+Ces plans définissent vos quotas et votre facturation récurrente.
+
+## Packs de crédits
+
+Ces plans permettent d’acheter un volume de crédits ponctuel.

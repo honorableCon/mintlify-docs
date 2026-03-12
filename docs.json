@@ -1,5 +1,6 @@
 {
   "$schema": "https://mintlify.com/docs.json",
+  "theme": "mint",
   "name": "Kiriku Docs",
   "logo": {
     "light": "/branding/kiriku-logo.svg",
@@ -9,8 +10,7 @@
   "colors": {
     "primary": "#000000",
     "light": "#333333",
-    "dark": "#000000",
-    "anchors": "#000000"
+    "dark": "#000000"
   },
   "topbarLinks": [
     {
@@ -27,39 +27,76 @@
     "url": "https://app.kiriku.app/register",
     "name": "Get API Key"
   },
-  "navigation": [
-    {
-      "group": "Start Here",
-      "pages": [
-        "index",
-        "quickstart"
-      ]
-    },
-    {
-      "group": "Guides",
-      "pages": [
-        "guides/authentication",
-        "guides/errors",
-        "guides/webhooks"
-      ]
-    },
-    {
-      "group": "Resources",
-      "pages": [
-        "resources/documents",
-        "resources/templates"
-      ]
-    },
-    {
-      "group": "API Reference",
-      "pages": [
-        "api-reference/introduction",
-        "api-reference/endpoint/get",
-        "api-reference/endpoint/create",
-        "api-reference/endpoint/webhook"
-      ]
-    }
-  ],
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Guides",
+        "groups": [
+          {
+            "group": "Start Here",
+            "pages": [
+              "index",
+              "quickstart"
+            ]
+          },
+          {
+            "group": "Guides",
+            "pages": [
+              "guides/authentication",
+              "guides/errors",
+              "guides/webhooks"
+            ]
+          },
+          {
+            "group": "Resources",
+            "pages": [
+              "resources/documents",
+              "resources/templates"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "API Reference",
+        "groups": [
+          {
+            "group": "Extraction",
+            "pages": [
+              "api-reference/endpoint/extract",
+              "api-reference/endpoint/extract-async",
+              "api-reference/endpoint/get-extraction"
+            ]
+          },
+          {
+            "group": "Templates",
+            "pages": [
+              "api-reference/endpoint/list-templates",
+              "api-reference/endpoint/get-template"
+            ]
+          },
+          {
+            "group": "Account",
+            "pages": [
+              "api-reference/endpoint/get-user"
+            ]
+          },
+          {
+            "group": "Billing",
+            "pages": [
+              "api-reference/endpoint/list-invoices"
+            ]
+          },
+          {
+            "group": "Webhooks",
+            "pages": [
+              "api-reference/endpoint/list-webhooks",
+              "api-reference/endpoint/create-webhook"
+            ]
+          }
+        ]
+      }
+    ]
+  },
   "footerSocials": {
     "website": "https://kiriku.sn",
     "linkedin": "https://linkedin.com/company/kiriku"

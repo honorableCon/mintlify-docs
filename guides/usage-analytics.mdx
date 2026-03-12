@@ -1,0 +1,22 @@
+---
+title: "Usage et analytics"
+description: "Suivre vos quotas et vos métriques"
+---
+
+## Usage
+
+`GET /v1/usage` retourne :
+
+- crédits consommés
+- consommation du mois et du jour
+- quota mensuel et crédits restants
+
+`GET /v1/usage/history` retourne une série mensuelle.
+
+## Analytics
+
+`GET /v1/analytics` fournit un résumé d’activité.
+
+`GET /v1/analytics/timeseries` renvoie une série temporelle (hour/day/week/month).
+
+`GET /v1/analytics/export` permet d’exporter les données (json ou csv).

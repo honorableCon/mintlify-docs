@@ -3,71 +3,76 @@ title: "Introduction"
 description: "Documentation développeurs Kiriku"
 ---
 
-## Démarrer
+## Commencer rapidement
 
-Commencez par récupérer un token, créer une clé API, puis exécuter votre première extraction.
-
-<Card
-  title="Quickstart Kiriku"
-  icon="rocket"
-  href="/quickstart"
-  horizontal
->
-  Authentification, clés API, premier appel d’extraction.
-</Card>
-
-## API Reference
-
-Référence des endpoints Billing (crédits, factures, abonnements internes) et endpoints admin.
+Démarrez en quelques minutes avec un compte, une clé API et une première extraction.
 
 <Columns cols={2}>
   <Card
-    title="Référence Billing"
+    title="Quickstart"
+    icon="rocket"
+    href="/quickstart"
+  >
+    Créer un compte, vérifier l’email, générer une clé API et lancer une extraction.
+  </Card>
+  <Card
+    title="Authentification"
+    icon="key"
+    href="/guides/authentication"
+  >
+    JWT pour la console, API key pour votre backend.
+  </Card>
+</Columns>
+
+## Guides principaux
+
+<Columns cols={2}>
+  <Card
+    title="Extractions"
+    icon="file-search"
+    href="/guides/extractions"
+  >
+    Sync, async, batch, options et feedback.
+  </Card>
+  <Card
+    title="Billing"
     icon="credit-card"
+    href="/guides/billing"
+  >
+    Packs, abonnements, paiements DexPay et webhooks.
+  </Card>
+</Columns>
+
+## Référence API
+
+Référence complète par ressource.
+
+<Columns cols={2}>
+  <Card
+    title="API reference"
+    icon="square-code"
     href="/api-reference/introduction"
   >
-    Crédits, factures, abonnements internes, admin billing.
+    Tous les endpoints Kiriku.
   </Card>
   <Card
-    title="Créer une session de paiement (pack)"
-    icon="square-code"
-    href="/api-reference/endpoint/create"
+    title="Webhooks"
+    icon="webhook"
+    href="/guides/webhooks"
   >
-    Démarrer un paiement DexPay pour un pack de crédits.
-  </Card>
-    <Card
-    title="Lister mes factures"
-    icon="file-text"
-    href="/api-reference/endpoint/get"
-  >
-    Récupérer l’historique des factures (abonnements internes).
-  </Card>
-  <Card
-    title="Annuler un abonnement"
-    icon="ban"
-    href="/api-reference/endpoint/delete"
-  >
-    Annuler le renouvellement (les avantages restent jusqu’à endDate).
+    Signatures, événements et bonnes pratiques.
   </Card>
 </Columns>
 
 ## Développement docs
 
-Lancer et prévisualiser les docs en local.
+Si vous travaillez sur cette doc, voici la page de démarrage local.
 
-<Columns cols={2}>
-  <Card
-    title="Développement local"
-    icon="rectangle-terminal"
-    href="/development"
-  >
-    Démarrer Mintlify en local et prévisualiser les changements.
-  </Card>
-  <Card
-    title="Configuration"
-    icon="gear"
-    href="/essentials/settings"
-  >
-    Ajuster le thème, le nom du site et la navigation.
-  </Card>
-</Columns>
+<Card
+  title="Développement local"
+  icon="rectangle-terminal"
+  href="/development"
+  horizontal
+>
+  Lancer Mintlify en local et prévisualiser les changements.
+</Card>

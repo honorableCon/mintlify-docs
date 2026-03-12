@@ -1,0 +1,56 @@
+---
+title: "Auth"
+description: "Création de compte, login, vérification email"
+---
+
+## Endpoints
+
+| Méthode | Path | Auth |
+| :--- | :--- | :--- |
+| POST | `/v1/auth/register` | Public |
+| POST | `/v1/auth/login` | Public |
+| POST | `/v1/auth/verify-email` | Public |
+| GET | `/v1/auth/verify-email` | Public |
+| POST | `/v1/auth/resend-verification` | JWT |
+| POST | `/v1/auth/forgot-password` | Public |
+| POST | `/v1/auth/reset-password` | Public |
+
+## Register
+
+```bash
+curl -X POST https://api.kiriku.app/v1/auth/register \
+  -H "Content-Type: application/json" \
+  -d '{
+    "email": "you@example.com",
+    "password": "StrongPassw0rd!",
+    "firstName": "Ada",
+    "lastName": "Lovelace"
+  }'
+```
+
+## Login
+
+```bash
+curl -X POST https://api.kiriku.app/v1/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{
+    "email": "you@example.com",
+    "password": "StrongPassw0rd!"
+  }'
+```
+
+## Vérifier un email
+
+```bash
+curl -X POST https://api.kiriku.app/v1/auth/verify-email \
+  -H "Content-Type: application/json" \
+  -d '{ "token": "<VERIFY_TOKEN>" }'
+```
+
+## Réinitialiser un mot de passe
+
+```bash
+curl -X POST https://api.kiriku.app/v1/auth/forgot-password \
+  -H "Content-Type: application/json" \
+  -d '{ "email": "you@example.com" }'
+```

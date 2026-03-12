@@ -1,45 +1,63 @@
 ---
 title: "Webhooks"
-description: "Listen to events on your Kiriku account so your integration can automatically trigger reactions."
+description: "Recevez les événements d’extraction et vérifiez les signatures"
 ---
 
-Kiriku uses webhooks to notify your application when an event happens in your account. Webhooks are particularly useful for asynchronous events like when a long-running extraction is completed or when a subscription payment succeeds.
+Kiriku envoie des webhooks pour les extractions et les tests de webhook.
 
-## Verifying Signatures
+## Événements disponibles
 
-Kiriku signs the webhook events it sends to your endpoints by including a signature in each event's `x-webhook-signature` header. This allows you to verify that the events were sent by Kiriku, not by a third party.
+- `extraction.completed`
+- `extraction.failed`
+- `webhook.test`
 
-### 1. Extract the signature
+## En-têtes envoyés
 
-The signature is sent in the `x-webhook-signature` header.
+- `X-Kiriku-Signature`: HMAC SHA-256 du body brut
+- `X-Kiriku-Event`: nom de l’événement
 
-### 2. Compute the HMAC
+## Vérifier la signature
 
-Compute an HMAC with the SHA256 hash function. Use the endpoint’s signing secret as the key, and use the raw request body as the message.
+Utilisez le secret généré lors de la création du webhook.
 
-### 3. Compare the signatures
+```javascript
+import crypto from 'crypto';
 
-Compare the signature in the header to the expected signature. If a signature matches, compute the difference between the current timestamp and the received timestamp, then decide if the difference is within your tolerance.
-
-<CodeGroup>
-```javascript Node.js
-const crypto = require('crypto');
-
-const secret = 'whsec_...';
-
-// Using Express
-app.post('/webhook', bodyParser.raw({type: 'application/json'}), (req, res) => {
-  const signature = req.headers['x-webhook-signature'];
+app.post('/webhook', express.raw({ type: 'application/json' }), (req, res) => {
+  const signature = req.headers['x-kiriku-signature'];
   const payload = req.body;
+  const secret = process.env.KIRIKU_WEBHOOK_SECRET;
 
-  const expectedSignature = crypto
+  const expected = crypto
     .createHmac('sha256', secret)
     .update(payload)
     .digest('hex');
 
-  if (signature === expectedSignature) {
-    // Verified!
+  if (signature !== expected) {
+    return res.status(401).send('Invalid signature');
   }
+
+  // Process event
+  res.status(200).send('ok');
 });
 ```
-</CodeGroup>
+
+## Payload type
+
+```json
+{
+  "event": "extraction.completed",
+  "apiVersion": "2025-06-01",
+  "id": "evt_...",
+  "createdAt": "2026-03-12T12:00:00.000Z",
+  "data": {
+    "extractionId": "ext_...",
+    "status": "completed",
+    "result": { }
+  }
+}
+```
+
+## Webhooks billing (DexPay)
+
+Les webhooks DexPay sont reçus sur `POST /v1/billing/webhook` et vérifiés avec `x-webhook-signature`.

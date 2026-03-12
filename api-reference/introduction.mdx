@@ -1,28 +1,31 @@
 ---
-title: 'Introduction'
-description: 'Référence API Kiriku (focus Billing)'
+title: "Introduction"
+description: "Référence API complète Kiriku"
 ---
 
-## Welcome
+## Base URL
 
-Cette section documente l’API Kiriku via une spécification OpenAPI. La version actuelle couvre en priorité le module Billing (crédits, factures, abonnements internes) et les endpoints admin associés.
+Production : `https://api.kiriku.app`
 
-<Card
-  title="Spécification OpenAPI"
-  icon="file-code"
-  href="/api-reference/openapi.json"
->
-  Consulter le fichier OpenAPI utilisé par Mintlify
-</Card>
+## Authentification
 
-## Authentication
+Kiriku accepte :
 
-Les endpoints sont authentifiés via un Bearer token (JWT). Les endpoints admin nécessitent en plus un rôle `admin`.
+- `Authorization: Bearer <JWT>`
+- `X-API-Key: sk_live_...`
+
+Les endpoints d’administration exigent le rôle `admin`.
+
+## Format des erreurs
 
 ```json
-"security": [
-  {
-    "bearerAuth": []
-  }
-]
+{
+  "statusCode": 400,
+  "message": "Invalid request",
+  "error": "Bad Request"
+}
 ```
+
+## OpenAPI
+
+Le fichier OpenAPI est disponible à : `/api-reference/openapi.json`.

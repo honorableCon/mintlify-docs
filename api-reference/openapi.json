@@ -117,6 +117,30 @@
         }
       }
     },
+    "/v1/extractions/{id}": {
+      "get": {
+        "summary": "Get Extraction",
+        "description": "Retrieve the status and result of an extraction.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Extraction details",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ExtractionResult" }
+              }
+            }
+          }
+        }
+      }
+    },
     "/v1/templates": {
       "get": {
         "summary": "List Templates",
@@ -130,6 +154,29 @@
                   "type": "array",
                   "items": { "$ref": "#/components/schemas/Template" }
                 }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/templates/{slug}": {
+      "get": {
+        "summary": "Get Template",
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Template details",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Template" }
               }
             }
           }

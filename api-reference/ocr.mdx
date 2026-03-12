@@ -1,0 +1,22 @@
+---
+title: "OCR"
+description: "Extraction OCR directe (interne)"
+---
+
+## Endpoints
+
+| Méthode | Path | Auth |
+| :--- | :--- | :--- |
+| POST | `/v1/ocr/extract` | JWT |
+| POST | `/v1/ocr/extract/async` | Public |
+| POST | `/v1/ocr/extract/batch` | Public |
+| GET | `/v1/ocr/providers` | Public |
+
+## Exemple
+
+```bash
+curl -X POST https://api.kiriku.app/v1/ocr/extract \
+  -H "Authorization: Bearer <JWT>" \
+  -F "file=@/path/to/cni_recto.jpg" \
+  -F "documentType=cni-senegal"
+```

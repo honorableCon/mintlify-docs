@@ -1,0 +1,53 @@
+---
+title: "Templates"
+description: "Créer et gérer des templates personnalisés"
+---
+
+La création et la modification de templates nécessitent un plan **growth** ou supérieur.
+
+## Structure d’un template
+
+Champs requis :
+
+- `slug`
+- `name`
+- `country`
+- `fields` (liste de champs)
+
+Chaque champ contient :
+
+- `key`, `label`, `type`, `required`
+- `extractionHint`, `region` (optionnels)
+- `validation` (regex, min/max, enum, etc.)
+
+## Exemple minimal
+
+```json
+{
+  "slug": "custom-invoice",
+  "name": "Custom invoice",
+  "country": "SN",
+  "fields": [
+    {
+      "key": "invoice_number",
+      "label": "Invoice number",
+      "type": "string",
+      "required": true
+    },
+    {
+      "key": "total_amount",
+      "label": "Total amount",
+      "type": "number",
+      "required": true
+    }
+  ]
+}
+```
+
+## Endpoints
+
+- `GET /v1/templates`
+- `GET /v1/templates/:slug`
+- `POST /v1/templates`
+- `PUT /v1/templates/:slug`
+- `DELETE /v1/templates/:slug`

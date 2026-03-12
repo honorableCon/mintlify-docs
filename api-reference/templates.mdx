@@ -1,0 +1,28 @@
+---
+title: "Templates"
+description: "Lister et gérer les templates"
+---
+
+## Endpoints
+
+| Méthode | Path | Auth |
+| :--- | :--- | :--- |
+| GET | `/v1/templates` | Public |
+| GET | `/v1/templates/:slug` | Public |
+| POST | `/v1/templates` | API key ou JWT (plan growth) |
+| PUT | `/v1/templates/:slug` | API key ou JWT (plan growth) |
+| DELETE | `/v1/templates/:slug` | API key ou JWT (plan growth) |
+
+## Exemple création
+
+```bash
+curl -X POST https://api.kiriku.app/v1/templates \
+  -H "X-API-Key: sk_live_..." \
+  -H "Content-Type: application/json" \
+  -d '{
+    "slug": "custom-invoice",
+    "name": "Custom invoice",
+    "country": "SN",
+    "fields": [{"key":"invoice_number","label":"Invoice number","type":"string","required":true}]
+  }'
+```

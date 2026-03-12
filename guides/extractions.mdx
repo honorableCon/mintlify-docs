@@ -1,0 +1,76 @@
+---
+title: "Extractions"
+description: "Sync, async, batch et options"
+---
+
+## Formats acceptés
+
+- `image/jpeg`, `image/png`, `image/webp`, `application/pdf`
+- Taille max : 10 MB par fichier
+
+## Extraction sync
+
+```bash
+curl -X POST https://api.kiriku.app/v1/extract \
+  -H "X-API-Key: sk_live_..." \
+  -F "file=@/path/to/cni_recto.jpg" \
+  -F "fileBack=@/path/to/cni_verso.jpg" \
+  -F "documentType=cni-senegal" \
+  -F "fraudCheck=true" \
+  -F "returnConfidence=true" \
+  -F "returnRawText=false"
+```
+
+## Extraction async
+
+```bash
+curl -X POST https://api.kiriku.app/v1/extract/async \
+  -H "X-API-Key: sk_live_..." \
+  -F "file=@/path/to/cni_recto.jpg" \
+  -F "documentType=cni-senegal"
+```
+
+Puis récupérez le résultat :
+
+```bash
+curl https://api.kiriku.app/v1/extractions/<EXTRACTION_ID> \
+  -H "X-API-Key: sk_live_..."
+```
+
+## Extraction batch
+
+```bash
+curl -X POST https://api.kiriku.app/v1/extract/batch \
+  -H "X-API-Key: sk_live_..." \
+  -F "files=@/path/1.jpg" \
+  -F "files=@/path/2.jpg" \
+  -F "documentType=cni-senegal"
+```
+
+## Options
+
+Vous pouvez envoyer un champ `options` JSON ou des champs simples :
+
+- `fraudCheck`
+- `returnConfidence`
+- `returnRawText`
+- `language`
+- `webhookUrl`
+- `webhookSecret`
+
+## Feedback
+
+```bash
+curl -X POST https://api.kiriku.app/v1/extractions/<ID>/feedback \
+  -H "X-API-Key: sk_live_..." \
+  -H "Content-Type: application/json" \
+  -d '{"correctedData": {"nom": "DIOP"}}'
+```
+
+## Fichier original
+
+```bash
+curl https://api.kiriku.app/v1/extractions/<ID>/file \
+  -H "X-API-Key: sk_live_..." \
+  -o file.jpg
+```

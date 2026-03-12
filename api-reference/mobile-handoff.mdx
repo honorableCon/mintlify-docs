@@ -1,0 +1,19 @@
+---
+title: "Mobile handoff"
+description: "Créer une session et transférer un fichier"
+---
+
+## Endpoints
+
+| Méthode | Path | Auth |
+| :--- | :--- | :--- |
+| POST | `/v1/mobile-handoff/session` | Public |
+| GET | `/v1/mobile-handoff/session/:sessionId` | Public |
+| POST | `/v1/mobile-handoff/upload/:sessionId` | Public |
+| GET | `/v1/mobile-handoff/consume/:sessionId` | Public |
+
+## Exemple
+
+```bash
+curl -X POST https://api.kiriku.app/v1/mobile-handoff/session
+```

@@ -1,0 +1,51 @@
+---
+title: "Extractions"
+description: "Extraire, lister et récupérer les résultats"
+---
+
+## Endpoints
+
+| Méthode | Path | Auth |
+| :--- | :--- | :--- |
+| POST | `/v1/extract` | API key ou JWT |
+| POST | `/v1/extract/async` | API key ou JWT |
+| POST | `/v1/extract/batch` | API key ou JWT |
+| GET | `/v1/extractions` | API key ou JWT |
+| GET | `/v1/extractions/:id` | API key ou JWT |
+| DELETE | `/v1/extractions/:id` | API key ou JWT |
+| GET | `/v1/extractions/:id/file` | API key ou JWT |
+| POST | `/v1/extractions/:id/feedback` | API key ou JWT |
+
+## Exemple sync
+
+```bash
+curl -X POST https://api.kiriku.app/v1/extract \
+  -H "X-API-Key: sk_live_..." \
+  -F "file=@/path/to/cni_recto.jpg" \
+  -F "documentType=cni-senegal"
+```
+
+## Exemple async
+
+```bash
+curl -X POST https://api.kiriku.app/v1/extract/async \
+  -H "X-API-Key: sk_live_..." \
+  -F "file=@/path/to/cni_recto.jpg" \
+  -F "documentType=cni-senegal"
+```
+
+## Exemple feedback
+
+```bash
+curl -X POST https://api.kiriku.app/v1/extractions/<ID>/feedback \
+  -H "X-API-Key: sk_live_..." \
+  -H "Content-Type: application/json" \
+  -d '{"correctedData": {"prenom": "Mariam"}}'
+```
+
+## Admin learning
+
+| Méthode | Path | Auth |
+| :--- | :--- | :--- |
+| GET | `/v1/admin/learning/corrections` | Admin |
+| GET | `/v1/admin/learning/dataset` | Admin |

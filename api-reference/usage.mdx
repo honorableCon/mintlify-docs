@@ -1,0 +1,18 @@
+---
+title: "Usage"
+description: "Suivre vos quotas et votre consommation"
+---
+
+## Endpoints
+
+| Méthode | Path | Auth |
+| :--- | :--- | :--- |
+| GET | `/v1/usage` | API key ou JWT |
+| GET | `/v1/usage/history` | API key ou JWT |
+
+## Exemple
+
+```bash
+curl https://api.kiriku.app/v1/usage \
+  -H "X-API-Key: sk_live_..."
+```

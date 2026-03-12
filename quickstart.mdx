@@ -1,34 +1,51 @@
 ---
 title: "Quickstart"
-description: "Obtenir un token, créer une clé API, faire une extraction, gérer la facturation"
+description: "Créer un compte, obtenir une clé API, faire une extraction"
 ---
 
-## Démarrer en 4 étapes
+## Étape 1 : créer un compte
 
-Ce guide vous permet de faire votre première intégration Kiriku (auth, clé API, extraction), puis de vérifier votre solde et la facturation.
+Créez un compte et vérifiez votre email. L’email doit être vérifié pour se connecter.
 
-### Étape 1 : Authentification (JWT)
+```bash
+curl -X POST https://api.kiriku.app/v1/auth/register \
+  -H "Content-Type: application/json" \
+  -d '{
+    "email": "you@example.com",
+    "password": "StrongPassw0rd!",
+    "firstName": "Ada",
+    "lastName": "Lovelace"
+  }'
+```
 
-Récupérez un token via l’endpoint de login:
+Vous recevez un email de vérification. Vous pouvez aussi valider via l’API :
+
+```bash
+curl -X POST https://api.kiriku.app/v1/auth/verify-email \
+  -H "Content-Type: application/json" \
+  -d '{ "token": "<VERIFY_TOKEN>" }'
+```
+
+## Étape 2 : se connecter et obtenir un JWT
 
 ```bash
 curl -X POST https://api.kiriku.app/v1/auth/login \
   -H "Content-Type: application/json" \
   -d '{
     "email": "you@example.com",
-    "password": "your_password"
+    "password": "StrongPassw0rd!"
   }'
 ```
 
-Vous obtenez un `accessToken` (JWT) à envoyer dans:
+Utilisez ensuite le `accessToken` JWT :
 
 ```txt
 Authorization: Bearer <JWT>
 ```
 
-### Étape 2 : Créer une clé API
+## Étape 3 : créer une clé API
 
-Une clé API est pratique pour l’intégration serveur (sans session). Créez-la avec votre JWT:
+Une clé API est recommandée pour vos backends.
 
 ```bash
 curl -X POST https://api.kiriku.app/v1/api-keys \
@@ -37,30 +54,18 @@ curl -X POST https://api.kiriku.app/v1/api-keys \
   -d '{ "name": "backend-prod" }'
 ```
 
-La réponse contient une clé que vous utiliserez ensuite comme Bearer token (API key).
-
-### Étape 3 : Faire une extraction (multipart)
-
-Endpoint: `POST /v1/extract`
-
-Exemple minimal (fichier recto seulement):
+## Étape 4 : faire une extraction
 
 ```bash
 curl -X POST https://api.kiriku.app/v1/extract \
-  -H "Authorization: Bearer <API_KEY>" \
-  -F "file=@/path/to/document.jpg" \
-  -F "documentType=cni_senegal" \
-  -F 'options={"returnRawText":false}'
+  -H "X-API-Key: sk_live_..." \
+  -F "file=@/path/to/cni_recto.jpg" \
+  -F "documentType=cni-senegal" \
+  -F "fraudCheck=true" \
+  -F "returnConfidence=true" \
+  -F "returnRawText=false"
 ```
 
-### Étape 4 : Billing (crédits, factures, abonnements)
+## Étape 5 : suivre le résultat
 
-Les écrans et endpoints utiles:
-
-- Solde crédits et plan: `GET /v1/users/me`
-- Factures: `GET /v1/billing/invoices`
-- Achat pack: `POST /v1/billing/checkout`
-- Abonnement interne + facture initiale: `POST /v1/billing/subscribe`
-- Annulation (pas de downgrade immédiat): `POST /v1/billing/subscription/cancel`
-
-Pour le détail, voir la [référence Billing](/api-reference/introduction).
+Pour l’async, utilisez `POST /v1/extract/async` puis récupérez avec `GET /v1/extractions/:id`.

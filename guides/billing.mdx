@@ -1,0 +1,39 @@
+---
+title: "Billing"
+description: "Packs, abonnements et DexPay"
+---
+
+Kiriku utilise DexPay pour les paiements. Il existe deux types d’offres :
+
+- **subscription** : abonnement mensuel/annuel
+- **pack** : achat ponctuel de crédits
+
+## Packs (achat ponctuel)
+
+1. Listez les packs via `GET /v1/plans` (type `pack`).
+2. Créez une session de paiement : `POST /v1/billing/checkout` avec `planId`.
+
+## Abonnements
+
+1. Listez les plans `subscription` via `GET /v1/plans`.
+2. Souscrivez : `POST /v1/billing/subscribe` avec `plan` et `phone`.
+3. Redirigez l’utilisateur vers `paymentUrl`.
+4. DexPay appelle `POST /v1/billing/webhook` pour activer l’abonnement.
+
+## Téléphone requis
+
+DexPay demande un numéro de téléphone. Vous pouvez le stocker sur le profil utilisateur ou l’envoyer lors de la souscription.
+
+## Webhook DexPay
+
+- Endpoint : `POST /v1/billing/webhook`
+- Signature : `x-webhook-signature` (HMAC SHA-256 du body brut)
+- Secret : `DEXPAY_SECRET_KEY` ou `DEXPAY_API_SECRET`
+
+## Endpoints utiles
+
+- `POST /v1/billing/checkout`
+- `POST /v1/billing/subscribe`
+- `POST /v1/billing/subscription/cancel`
+- `GET /v1/billing/transactions`
+- `GET /v1/billing/invoices`

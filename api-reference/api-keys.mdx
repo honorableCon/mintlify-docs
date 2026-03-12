@@ -1,0 +1,33 @@
+---
+title: "API keys"
+description: "Créer et gérer vos clés API"
+---
+
+## Endpoints
+
+| Méthode | Path | Auth |
+| :--- | :--- | :--- |
+| GET | `/v1/api-keys` | JWT |
+| POST | `/v1/api-keys` | JWT |
+| DELETE | `/v1/api-keys/:id` | JWT |
+
+## Créer une clé
+
+```bash
+curl -X POST https://api.kiriku.app/v1/api-keys \
+  -H "Authorization: Bearer <JWT>" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "backend-prod",
+    "environment": "live",
+    "allowedIps": ["1.2.3.4"],
+    "expiresAt": "2026-12-31T00:00:00Z"
+  }'
+```
+
+## Lister
+
+```bash
+curl https://api.kiriku.app/v1/api-keys \
+  -H "Authorization: Bearer <JWT>"
+```

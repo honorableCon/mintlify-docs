@@ -1,0 +1,38 @@
+---
+title: "Admin"
+description: "Endpoints réservés aux administrateurs"
+---
+
+## Settings
+
+| Méthode | Path | Auth |
+| :--- | :--- | :--- |
+| GET | `/v1/admin/settings` | Admin |
+| PUT | `/v1/admin/settings/openrouter` | Admin |
+| PUT | `/v1/admin/settings/cloudflare-ai` | Admin |
+
+## Users
+
+| Méthode | Path | Auth |
+| :--- | :--- | :--- |
+| GET | `/v1/users/admin/users` | Admin |
+
+## Analytics
+
+| Méthode | Path | Auth |
+| :--- | :--- | :--- |
+| GET | `/v1/analytics/admin/overview` | Admin |
+
+## Billing
+
+| Méthode | Path | Auth |
+| :--- | :--- | :--- |
+| GET | `/v1/billing/admin/invoices` | Admin |
+| GET | `/v1/billing/admin/transactions` | Admin |
+
+## Learning
+
+| Méthode | Path | Auth |
+| :--- | :--- | :--- |
+| GET | `/v1/admin/learning/corrections` | Admin |
+| GET | `/v1/admin/learning/dataset` | Admin |

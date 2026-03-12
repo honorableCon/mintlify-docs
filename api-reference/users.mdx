@@ -1,0 +1,30 @@
+---
+title: "Users"
+description: "Profil utilisateur et notifications"
+---
+
+## Endpoints
+
+| Méthode | Path | Auth |
+| :--- | :--- | :--- |
+| GET | `/v1/users/me` | JWT |
+| PUT | `/v1/users/me` | JWT |
+| PUT | `/v1/users/me/notifications` | JWT |
+| PUT | `/v1/users/me/password` | JWT |
+| GET | `/v1/users/admin/users` | Admin |
+
+## Exemple : profil
+
+```bash
+curl https://api.kiriku.app/v1/users/me \
+  -H "Authorization: Bearer <JWT>"
+```
+
+## Exemple : mise à jour
+
+```bash
+curl -X PUT https://api.kiriku.app/v1/users/me \
+  -H "Authorization: Bearer <JWT>" \
+  -H "Content-Type: application/json" \
+  -d '{ "organization": "Acme" }'
+```

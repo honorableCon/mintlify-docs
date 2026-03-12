@@ -1,0 +1,61 @@
+---
+title: "Billing"
+description: "Packs, abonnements, transactions et DexPay"
+---
+
+## Endpoints utilisateur
+
+| Méthode | Path | Auth |
+| :--- | :--- | :--- |
+| POST | `/v1/billing/checkout` | JWT |
+| POST | `/v1/billing/subscribe` | JWT |
+| POST | `/v1/billing/subscription/cancel` | JWT |
+| POST | `/v1/billing/subscription/activate` | JWT |
+| GET | `/v1/billing/subscription/active` | JWT |
+| GET | `/v1/billing/transactions` | JWT |
+| GET | `/v1/billing/invoices` | JWT |
+| POST | `/v1/billing/balance` | JWT |
+| POST | `/v1/billing/payout` | JWT |
+| GET | `/v1/billing/success` | Public |
+| GET | `/v1/billing/cancel` | Public |
+
+## Endpoints admin
+
+| Méthode | Path | Auth |
+| :--- | :--- | :--- |
+| GET | `/v1/billing/admin/invoices` | Admin |
+| GET | `/v1/billing/admin/transactions` | Admin |
+
+## Produits DexPay
+
+| Méthode | Path | Auth |
+| :--- | :--- | :--- |
+| POST | `/v1/billing/products` | JWT |
+| GET | `/v1/billing/products` | JWT |
+| GET | `/v1/billing/products/:id` | JWT |
+| PUT | `/v1/billing/products/:id` | JWT |
+| DELETE | `/v1/billing/products/:id` | JWT |
+
+## Webhook DexPay
+
+| Méthode | Path | Auth |
+| :--- | :--- | :--- |
+| POST | `/v1/billing/webhook` | Public |
+
+## Exemple : checkout pack
+
+```bash
+curl -X POST https://api.kiriku.app/v1/billing/checkout \
+  -H "Authorization: Bearer <JWT>" \
+  -H "Content-Type: application/json" \
+  -d '{ "planId": "pack_growth" }'
+```
+
+## Exemple : abonnement
+
+```bash
+curl -X POST https://api.kiriku.app/v1/billing/subscribe \
+  -H "Authorization: Bearer <JWT>" \
+  -H "Content-Type: application/json" \
+  -d '{ "plan": "growth", "phone": "+221771234567" }'
+```
