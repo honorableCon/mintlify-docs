@@ -5,15 +5,11 @@ description: "Créer une session et transférer un fichier"
 
 ## Endpoints
 
-| Méthode | Path | Auth |
-| :--- | :--- | :--- |
-| POST | `/v1/mobile-handoff/session` | Public |
-| GET | `/v1/mobile-handoff/session/:sessionId` | Public |
-| POST | `/v1/mobile-handoff/upload/:sessionId` | Public |
-| GET | `/v1/mobile-handoff/consume/:sessionId` | Public |
+Voir la documentation détaillée de chaque endpoint :
 
-## Exemple
+- [Create session](/api-reference/endpoint/create-session) - `POST /v1/mobile-handoff/session`
+- [Get session status](/api-reference/endpoint/get-session) - `GET /v1/mobile-handoff/session/:sessionId`
+- [Upload file](/api-reference/endpoint/upload-file) - `POST /v1/mobile-handoff/upload/:sessionId`
+- [Consume file](/api-reference/endpoint/consume-file) - `GET /v1/mobile-handoff/consume/:sessionId`
 
-```bash
-curl -X POST https://api.kiriku.app/v1/mobile-handoff/session
-```
+Tous ces endpoints sont publics et ne nécessitent pas d'authentification.

@@ -44,7 +44,8 @@
             "pages": [
               "guides/authentication",
               "guides/errors",
-              "guides/webhooks"
+              "guides/webhooks",
+              "guides/mobile-handoff"
             ]
           },
           {
@@ -91,6 +92,15 @@
             "pages": [
               "api-reference/endpoint/list-webhooks",
               "api-reference/endpoint/create-webhook"
+            ]
+          },
+          {
+            "group": "Mobile Handoff",
+            "pages": [
+              "api-reference/endpoint/create-session",
+              "api-reference/endpoint/get-session",
+              "api-reference/endpoint/upload-file",
+              "api-reference/endpoint/consume-file"
             ]
           }
         ]
