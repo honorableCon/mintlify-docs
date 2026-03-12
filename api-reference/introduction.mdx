@@ -1,28 +1,23 @@
 ---
 title: 'Introduction'
-description: 'Example section for showcasing API endpoints'
+description: 'Référence API Kiriku (focus Billing)'
 ---
-
-<Note>
-  If you're not looking to build API reference documentation, you can delete
-  this section by removing the api-reference folder.
-</Note>
 
 ## Welcome
 
-There are two ways to build API documentation: [OpenAPI](https://mintlify.com/docs/api-playground/openapi/setup) and [MDX components](https://mintlify.com/docs/api-playground/mdx/configuration). For the starter kit, we are using the following OpenAPI specification.
+Cette section documente l’API Kiriku via une spécification OpenAPI. La version actuelle couvre en priorité le module Billing (crédits, factures, abonnements internes) et les endpoints admin associés.
 
 <Card
-  title="Plant Store Endpoints"
-  icon="leaf"
-  href="https://github.com/mintlify/starter/blob/main/api-reference/openapi.json"
+  title="Spécification OpenAPI"
+  icon="file-code"
+  href="/api-reference/openapi.json"
 >
-  View the OpenAPI specification file
+  Consulter le fichier OpenAPI utilisé par Mintlify
 </Card>
 
 ## Authentication
 
-All API endpoints are authenticated using Bearer tokens and picked up from the specification file.
+Les endpoints sont authentifiés via un Bearer token (JWT). Les endpoints admin nécessitent en plus un rôle `admin`.
 
 ```json
 "security": [
