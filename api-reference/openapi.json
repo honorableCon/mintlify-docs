@@ -257,6 +257,163 @@
           }
         }
       }
+    },
+    "/v1/mobile-handoff/session": {
+      "post": {
+        "summary": "Create Mobile Handoff Session",
+        "description": "Create a new mobile handoff session for file transfer. The session is valid for 15 minutes.",
+        "security": [],
+        "responses": {
+          "200": {
+            "description": "Session created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MobileHandoffSession"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/mobile-handoff/session/{sessionId}": {
+      "get": {
+        "summary": "Get Session Status",
+        "description": "Retrieve the current status and metadata of a mobile handoff session.",
+        "security": [],
+        "parameters": [
+          {
+            "name": "sessionId",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" },
+            "description": "The unique session identifier"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Session details",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/MobileHandoffSession" }
+              }
+            }
+          },
+          "404": {
+            "description": "Session not found"
+          },
+          "410": {
+            "description": "Session expired"
+          }
+        }
+      }
+    },
+    "/v1/mobile-handoff/upload/{sessionId}": {
+      "post": {
+        "summary": "Upload File",
+        "description": "Upload a file to the mobile handoff session. Max file size: 10MB. Accepted formats: images (JPEG, PNG, WEBP), PDF.",
+        "security": [],
+        "parameters": [
+          {
+            "name": "sessionId",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" },
+            "description": "The unique session identifier"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary",
+                    "description": "The file to upload"
+                  }
+                },
+                "required": ["file"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "File uploaded successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": { "type": "boolean" }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request (no file or file too large)"
+          },
+          "404": {
+            "description": "Session not found"
+          },
+          "410": {
+            "description": "Session expired"
+          }
+        }
+      }
+    },
+    "/v1/mobile-handoff/consume/{sessionId}": {
+      "get": {
+        "summary": "Consume File",
+        "description": "Retrieve and consume the uploaded file. The file is automatically deleted after consumption (one-time use).",
+        "security": [],
+        "parameters": [
+          {
+            "name": "sessionId",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" },
+            "description": "The unique session identifier"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "File returned successfully",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            },
+            "headers": {
+              "Content-Type": {
+                "description": "The MIME type of the file",
+                "schema": { "type": "string" }
+              },
+              "Content-Disposition": {
+                "description": "The filename disposition",
+                "schema": { "type": "string" }
+              },
+              "Content-Length": {
+                "description": "The size of the file in bytes",
+                "schema": { "type": "integer" }
+              }
+            }
+          },
+          "404": {
+            "description": "Session not found or file already consumed"
+          },
+          "410": {
+            "description": "Session expired"
+          }
+        }
+      }
     }
   },
   "components": {
@@ -318,6 +475,40 @@
           "url": { "type": "string" },
           "events": { "type": "array", "items": { "type": "string" } },
           "secret": { "type": "string" }
+        }
+      },
+      "MobileHandoffSession": {
+        "type": "object",
+        "properties": {
+          "sessionId": { "type": "string", "description": "Unique session identifier" },
+          "status": {
+            "type": "string",
+            "enum": ["pending", "uploaded", "consumed"],
+            "description": "Session status"
+          },
+          "file": {
+            "type": "object",
+            "properties": {
+              "originalName": { "type": "string" },
+              "mimeType": { "type": "string" },
+              "size": { "type": "number" }
+            },
+            "description": "File metadata (only present when uploaded)"
+          },
+          "createdAt": { "type": "string", "format": "date-time" },
+          "uploadUrl": {
+            "type": "string",
+            "description": "URL to upload file to this session"
+          },
+          "consumeUrl": {
+            "type": "string",
+            "description": "URL to consume the uploaded file"
+          },
+          "expiresAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Session expiration time (15 minutes after creation)"
+          }
         }
       }
     }

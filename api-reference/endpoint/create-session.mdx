@@ -4,3 +4,20 @@ openapi: "POST /v1/mobile-handoff/session"
 ---
 
 Create a new mobile handoff session.
+
+## Response
+
+```json
+{
+  "sessionId": "abc123def456",
+  "uploadUrl": "https://api.kiriku.app/v1/mobile-handoff/upload/abc123def456",
+  "consumeUrl": "https://api.kiriku.app/v1/mobile-handoff/consume/abc123def456",
+  "status": "created",
+  "expiresAt": "2024-03-13T12:00:00Z"
+}
+```
+
+## Notes
+
+- Le sessionId est valide pendant 30 minutes
+- Vous pouvez partager l'uploadUrl avec votre application mobile

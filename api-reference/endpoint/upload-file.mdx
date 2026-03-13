@@ -4,3 +4,43 @@ openapi: "POST /v1/mobile-handoff/upload/:sessionId"
 ---
 
 Upload a file to a mobile handoff session.
+
+## Path Parameters
+
+| Parameter | Type | Description |
+| :--- | :--- | :--- |
+| `sessionId` | `string` | L'identifiant unique de la session |
+
+## Request Body
+
+Envoyez le fichier en tant que `multipart/form-data`.
+
+| Field | Type | Description |
+| :--- | :--- | :--- |
+| `file` | `File` | Le fichier à uploader (max 10 MB) |
+
+## Response
+
+```json
+{
+  "success": true,
+  "message": "File uploaded successfully",
+  "fileName": "document.pdf",
+  "fileSize": 1048576,
+  "fileType": "application/pdf",
+  "uploadedAt": "2024-03-13T11:30:00Z"
+}
+```
+
+## Example
+
+```bash
+curl -X POST https://api.kiriku.app/v1/mobile-handoff/upload/abc123def456 \
+  -F "file=@/path/to/document.pdf"
+```
+
+## Notes
+
+- Formats acceptés : images (jpg, png, webp), PDF
+- Taille maximale : 10 MB
+- Le fichier est automatiquement supprimé après consommation

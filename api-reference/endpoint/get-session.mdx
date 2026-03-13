@@ -4,3 +4,31 @@ openapi: "GET /v1/mobile-handoff/session/:sessionId"
 ---
 
 Get the status of a mobile handoff session.
+
+## Path Parameters
+
+| Parameter | Type | Description |
+| :--- | :--- | :--- |
+| `sessionId` | `string` | L'identifiant unique de la session |
+
+## Response
+
+```json
+{
+  "sessionId": "abc123def456",
+  "status": "ready",
+  "fileName": "document.pdf",
+  "fileSize": 1048576,
+  "fileType": "application/pdf",
+  "uploadedAt": "2024-03-13T11:30:00Z",
+  "expiresAt": "2024-03-13T12:00:00Z"
+}
+```
+
+## Status Values
+
+- `created` - Session créée, aucun fichier uploadé
+- `uploading` - Upload en cours
+- `ready` - Fichier prêt à être consommé
+- `consumed` - Fichier déjà consommé
+- `expired` - Session expirée

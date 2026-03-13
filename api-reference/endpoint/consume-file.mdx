@@ -4,3 +4,31 @@ openapi: "GET /v1/mobile-handoff/consume/:sessionId"
 ---
 
 Retrieve and consume the uploaded file from a mobile handoff session.
+
+## Path Parameters
+
+| Parameter | Type | Description |
+| :--- | :--- | :--- |
+| `sessionId` | `string` | L'identifiant unique de la session |
+
+## Response
+
+Le fichier est retourné directement dans le corps de la réponse avec le bon type MIME.
+
+Headers :
+- `Content-Type`: Le type MIME du fichier (ex: `application/pdf`, `image/jpeg`)
+- `Content-Length`: La taille du fichier en octets
+- `Content-Disposition`: `attachment; filename="document.pdf"`
+
+## Example
+
+```bash
+curl -X GET https://api.kiriku.app/v1/mobile-handoff/consume/abc123def456 \
+  -O -J
+```
+
+## Notes
+
+- Le fichier est **automatiquement supprimé** après consommation (one-time use)
+- Retourne une erreur 404 si le fichier a déjà été consommé
+- Retourne une erreur 410 si la session est expirée
