@@ -1,0 +1,139 @@
+---
+title: "Mobile Handoff - Workflow Complet"
+description: "Guide étape par étape pour tester le workflow Mobile Handoff"
+---
+
+# Workflow Complet Mobile Handoff
+
+Ce guide explique comment tester manuellement le workflow Mobile Handoff puisque l'interface Mintlify ne peut pas simuler les workflows séquentiels avec paramètres dynamiques.
+
+## 📋 Prérequis
+
+- Outil de ligne de commande (`curl`)
+- Un fichier de test (image ou PDF)
+- Compréhension basique des APIs REST
+
+## 🔄 Workflow en 4 Étapes
+
+### Étape 1: Créer une Session
+
+```bash
+# Créer une nouvelle session
+curl -X POST https://api.kiriku.app/v1/mobile-handoff/session
+```
+
+**Réponse attendue:**
+```json
+{
+  "sessionId": "sess_abc123def456",
+  "uploadUrl": "https://api.kiriku.app/v1/mobile-handoff/upload/sess_abc123def456",
+  "consumeUrl": "https://api.kiriku.app/v1/mobile-handoff/consume/sess_abc123def456",
+  "status": "created",
+  "expiresAt": "2024-03-13T12:00:00Z"
+}
+```
+
+### Étape 2: Uploader un Fichier
+
+```bash
+# Uploader un fichier avec le sessionId obtenu
+curl -X POST https://api.kiriku.app/v1/mobile-handoff/upload/sess_abc123def456 \
+  -F "file=@/chemin/vers/votre/document.pdf"
+```
+
+**Réponse attendue:**
+```json
+{
+  "success": true,
+  "message": "File uploaded successfully",
+  "fileName": "document.pdf",
+  "fileSize": 1048576,
+  "fileType": "application/pdf",
+  "uploadedAt": "2024-03-13T11:30:00Z"
+}
+```
+
+### Étape 3: Vérifier le Statut
+
+```bash
+# Vérifier le statut de la session
+curl -X GET https://api.kiriku.app/v1/mobile-handoff/session/sess_abc123def456
+```
+
+**Réponse attendue:**
+```json
+{
+  "sessionId": "sess_abc123def456",
+  "status": "ready",
+  "fileName": "document.pdf",
+  "fileSize": 1048576,
+  "fileType": "application/pdf",
+  "uploadedAt": "2024-03-13T11:30:00Z",
+  "expiresAt": "2024-03-13T12:00:00Z"
+}
+```
+
+### Étape 4: Consommer le Fichier
+
+```bash
+# Télécharger le fichier (one-time use)
+curl -X GET https://api.kiriku.app/v1/mobile-handoff/consume/sess_abc123def456 \
+  -O -J
+```
+
+**Comportement:**
+- Le fichier est téléchargé avec son nom original
+- La session est marquée comme "consumed"
+- Le fichier est supprimé du serveur
+
+## 🧪 Script de Test Complet
+
+```bash
+#!/bin/bash
+
+# Étape 1: Créer la session
+SESSION_RESPONSE=$(curl -s -X POST https://api.kiriku.app/v1/mobile-handoff/session)
+SESSION_ID=$(echo $SESSION_RESPONSE | jq -r '.sessionId')
+
+echo "Session créée: $SESSION_ID"
+
+# Étape 2: Uploader un fichier
+UPLOAD_RESPONSE=$(curl -s -X POST https://api.kiriku.app/v1/mobile-handoff/upload/$SESSION_ID \
+  -F "file=@./test-document.pdf")
+
+echo "Fichier uploadé: $UPLOAD_RESPONSE"
+
+# Étape 3: Vérifier le statut
+STATUS_RESPONSE=$(curl -s -X GET https://api.kiriku.app/v1/mobile-handoff/session/$SESSION_ID)
+
+echo "Statut: $STATUS_RESPONSE"
+
+# Étape 4: Consommer le fichier
+curl -X GET https://api.kiriku.app/v1/mobile-handoff/consume/$SESSION_ID \
+  -O -J
+
+echo "Fichier téléchargé avec succès"
+```
+
+## ⚠️ Limitations de l'Interface Mintlify
+
+L'interface ne peut pas tester ce workflow automatiquement car:
+
+1. **Paramètres dynamiques** : Les `sessionId` sont générés dynamiquement
+2. **Workflow séquentiel** : Les étapes doivent être exécutées dans l'ordre
+3. **État partagé** : Le sessionId de l'étape 1 doit être réutilisé
+
+## ✅ Bonnes Pratiques
+
+- **Test manuel requis** : Utilisez `curl` ou Postman pour tester
+- **SessionId valide 30min** : Les sessions expirent après 30 minutes
+- **One-time use** : Chaque fichier ne peut être consommé qu'une fois
+- **Formats supportés** : Images (JPG, PNG, WEBP) et PDF
+- **Taille max** : 10MB par fichier
+
+## 🔗 Documentation des Endpoints
+
+- [Créer une session](/api-reference/endpoint/create-session)
+- [Uploader un fichier](/api-reference/endpoint/upload-file) 
+- [Vérifier le statut](/api-reference/endpoint/get-session)
+- [Consommer le fichier](/api-reference/endpoint/consume-file)

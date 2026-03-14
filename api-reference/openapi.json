@@ -288,7 +288,8 @@
             "in": "path",
             "required": true,
             "schema": { "type": "string" },
-            "description": "The unique session identifier"
+            "description": "The unique session identifier",
+            "example": "sess_123456789"
           }
         ],
         "responses": {
@@ -320,7 +321,8 @@
             "in": "path",
             "required": true,
             "schema": { "type": "string" },
-            "description": "The unique session identifier"
+            "description": "The unique session identifier",
+            "example": "sess_123456789"
           }
         ],
         "requestBody": {
@@ -377,7 +379,8 @@
             "in": "path",
             "required": true,
             "schema": { "type": "string" },
-            "description": "The unique session identifier"
+            "description": "The unique session identifier",
+            "example": "sess_123456789"
           }
         ],
         "responses": {

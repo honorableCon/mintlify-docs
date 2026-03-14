@@ -35,7 +35,8 @@ Envoyez le fichier en tant que `multipart/form-data`.
 ## Example
 
 ```bash
-curl -X POST https://api.kiriku.app/v1/mobile-handoff/upload/abc123def456 \
+# Remplacez 'sess_123456789' par un vrai sessionId obtenu de create-session
+curl -X POST https://api.kiriku.app/v1/mobile-handoff/upload/sess_123456789 \
   -F "file=@/path/to/document.pdf"
 ```
 

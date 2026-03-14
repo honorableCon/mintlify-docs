@@ -25,6 +25,14 @@ Get the status of a mobile handoff session.
 }
 ```
 
+## Example
+
+```bash
+# Remplacez 'sess_123456789' par un vrai sessionId obtenu de create-session
+curl -X GET https://api.kiriku.app/v1/mobile-handoff/session/sess_123456789 \
+  -H "Content-Type: application/json"
+```
+
 ## Status Values
 
 - `created` - Session créée, aucun fichier uploadé
