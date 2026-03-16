@@ -57,7 +57,10 @@
                     "default": false
                   }
                 },
-                "required": ["file", "documentType"]
+                "required": [
+                  "file",
+                  "documentType"
+                ]
               }
             }
           }
@@ -94,7 +97,10 @@
                     "type": "string"
                   }
                 },
-                "required": ["file", "documentType"]
+                "required": [
+                  "file",
+                  "documentType"
+                ]
               }
             }
           }
@@ -107,8 +113,13 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "extractionId": { "type": "string" },
-                    "status": { "type": "string", "example": "queued" }
+                    "extractionId": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string",
+                      "example": "queued"
+                    }
                   }
                 }
               }
@@ -126,7 +137,9 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "schema": { "type": "string" }
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -134,7 +147,9 @@
             "description": "Extraction details",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/ExtractionResult" }
+                "schema": {
+                  "$ref": "#/components/schemas/ExtractionResult"
+                }
               }
             }
           }
@@ -152,7 +167,9 @@
               "application/json": {
                 "schema": {
                   "type": "array",
-                  "items": { "$ref": "#/components/schemas/Template" }
+                  "items": {
+                    "$ref": "#/components/schemas/Template"
+                  }
                 }
               }
             }
@@ -168,7 +185,9 @@
             "name": "slug",
             "in": "path",
             "required": true,
-            "schema": { "type": "string" }
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -176,7 +195,9 @@
             "description": "Template details",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/Template" }
+                "schema": {
+                  "$ref": "#/components/schemas/Template"
+                }
               }
             }
           }
@@ -192,7 +213,9 @@
             "description": "User profile",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/User" }
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
               }
             }
           }
@@ -210,7 +233,9 @@
               "application/json": {
                 "schema": {
                   "type": "array",
-                  "items": { "$ref": "#/components/schemas/Invoice" }
+                  "items": {
+                    "$ref": "#/components/schemas/Invoice"
+                  }
                 }
               }
             }
@@ -228,7 +253,9 @@
               "application/json": {
                 "schema": {
                   "type": "array",
-                  "items": { "$ref": "#/components/schemas/WebhookConfig" }
+                  "items": {
+                    "$ref": "#/components/schemas/WebhookConfig"
+                  }
                 }
               }
             }
@@ -243,10 +270,20 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "url": { "type": "string" },
-                  "events": { "type": "array", "items": { "type": "string" } }
+                  "url": {
+                    "type": "string"
+                  },
+                  "events": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
                 },
-                "required": ["url", "events"]
+                "required": [
+                  "url",
+                  "events"
+                ]
               }
             }
           }
@@ -287,7 +324,9 @@
             "name": "sessionId",
             "in": "path",
             "required": true,
-            "schema": { "type": "string" },
+            "schema": {
+              "type": "string"
+            },
             "description": "The unique session identifier",
             "example": "sess_123456789"
           }
@@ -297,7 +336,9 @@
             "description": "Session details",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/MobileHandoffSession" }
+                "schema": {
+                  "$ref": "#/components/schemas/MobileHandoffSession"
+                }
               }
             }
           },
@@ -320,7 +361,9 @@
             "name": "sessionId",
             "in": "path",
             "required": true,
-            "schema": { "type": "string" },
+            "schema": {
+              "type": "string"
+            },
             "description": "The unique session identifier",
             "example": "sess_123456789"
           }
@@ -337,7 +380,9 @@
                     "description": "The file to upload"
                   }
                 },
-                "required": ["file"]
+                "required": [
+                  "file"
+                ]
               }
             }
           }
@@ -350,7 +395,9 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "success": { "type": "boolean" }
+                    "success": {
+                      "type": "boolean"
+                    }
                   }
                 }
               }
@@ -378,7 +425,9 @@
             "name": "sessionId",
             "in": "path",
             "required": true,
-            "schema": { "type": "string" },
+            "schema": {
+              "type": "string"
+            },
             "description": "The unique session identifier",
             "example": "sess_123456789"
           }
@@ -397,15 +446,21 @@
             "headers": {
               "Content-Type": {
                 "description": "The MIME type of the file",
-                "schema": { "type": "string" }
+                "schema": {
+                  "type": "string"
+                }
               },
               "Content-Disposition": {
                 "description": "The filename disposition",
-                "schema": { "type": "string" }
+                "schema": {
+                  "type": "string"
+                }
               },
               "Content-Length": {
                 "description": "The size of the file in bytes",
-                "schema": { "type": "integer" }
+                "schema": {
+                  "type": "integer"
+                }
               }
             }
           },
@@ -414,6 +469,177 @@
           },
           "410": {
             "description": "Session expired"
+          }
+        }
+      }
+    },
+    "/v1/kyc/score": {
+      "post": {
+        "summary": "KYC Score",
+        "description": "Calculate a complete KYC score using extraction, liveness, and face match.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "extractionId": {
+                    "type": "string",
+                    "description": "The ID of a completed extraction."
+                  },
+                  "selfieBase64": {
+                    "type": "string",
+                    "description": "Base64 encoded selfie image."
+                  },
+                  "enableAml": {
+                    "type": "boolean",
+                    "description": "Whether to perform an AML check."
+                  }
+                },
+                "required": [
+                  "extractionId",
+                  "selfieBase64"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "KYC score calculated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/KycScoreResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/liveness/check": {
+      "post": {
+        "summary": "Check Liveness",
+        "description": "Check if an image contains a live person.",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary",
+                    "description": "The selfie image file. Max 10MB."
+                  }
+                },
+                "required": [
+                  "file"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Liveness check completed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LivenessResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/match/face": {
+      "post": {
+        "summary": "Match Faces",
+        "description": "Compare two face images and return a similarity score.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "referenceImage": {
+                    "type": "string",
+                    "description": "Base64 encoded reference image (e.g., ID card)."
+                  },
+                  "liveImage": {
+                    "type": "string",
+                    "description": "Base64 encoded live image (e.g., selfie)."
+                  }
+                },
+                "required": [
+                  "referenceImage",
+                  "liveImage"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Face match completed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FaceMatchResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/aml/screen": {
+      "post": {
+        "summary": "AML Screening",
+        "description": "Screen an individual against Anti-Money Laundering (AML) databases.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "firstName": {
+                    "type": "string"
+                  },
+                  "lastName": {
+                    "type": "string"
+                  },
+                  "dateOfBirth": {
+                    "type": "string"
+                  },
+                  "nationality": {
+                    "type": "string"
+                  },
+                  "documentNumber": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "firstName",
+                  "lastName"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "AML screening completed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AmlScreenResponse"
+                }
+              }
+            }
           }
         }
       }
@@ -431,74 +657,149 @@
       "ExtractionResult": {
         "type": "object",
         "properties": {
-          "referenceId": { "type": "string" },
-          "status": { "type": "string", "enum": ["completed", "failed"] },
-          "documentType": { "type": "string" },
+          "referenceId": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "completed",
+              "failed"
+            ]
+          },
+          "documentType": {
+            "type": "string"
+          },
           "result": {
             "type": "object",
             "properties": {
-              "extractedData": { "type": "object" },
-              "globalConfidence": { "type": "number" }
+              "extractedData": {
+                "type": "object"
+              },
+              "globalConfidence": {
+                "type": "number"
+              }
             }
           },
-          "creditsUsed": { "type": "number" }
+          "creditsUsed": {
+            "type": "number"
+          }
         }
       },
       "Template": {
         "type": "object",
         "properties": {
-          "slug": { "type": "string" },
-          "name": { "type": "string" },
-          "category": { "type": "string" },
-          "fields": { "type": "array", "items": { "type": "object" } }
+          "slug": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "category": {
+            "type": "string"
+          },
+          "fields": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          }
         }
       },
       "User": {
         "type": "object",
         "properties": {
-          "id": { "type": "string" },
-          "email": { "type": "string" },
-          "plan": { "type": "string" },
-          "credits": { "type": "number" }
+          "id": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "plan": {
+            "type": "string"
+          },
+          "credits": {
+            "type": "number"
+          }
         }
       },
       "Invoice": {
         "type": "object",
         "properties": {
-          "reference": { "type": "string" },
-          "amount": { "type": "number" },
-          "status": { "type": "string", "enum": ["pending", "paid", "cancelled"] },
-          "paymentUrl": { "type": "string" }
+          "reference": {
+            "type": "string"
+          },
+          "amount": {
+            "type": "number"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "pending",
+              "paid",
+              "cancelled"
+            ]
+          },
+          "paymentUrl": {
+            "type": "string"
+          }
         }
       },
       "WebhookConfig": {
         "type": "object",
         "properties": {
-          "id": { "type": "string" },
-          "url": { "type": "string" },
-          "events": { "type": "array", "items": { "type": "string" } },
-          "secret": { "type": "string" }
+          "id": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          },
+          "events": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "secret": {
+            "type": "string"
+          }
         }
       },
       "MobileHandoffSession": {
         "type": "object",
         "properties": {
-          "sessionId": { "type": "string", "description": "Unique session identifier" },
+          "sessionId": {
+            "type": "string",
+            "description": "Unique session identifier"
+          },
           "status": {
             "type": "string",
-            "enum": ["pending", "uploaded", "consumed"],
+            "enum": [
+              "pending",
+              "uploaded",
+              "consumed"
+            ],
             "description": "Session status"
           },
           "file": {
             "type": "object",
             "properties": {
-              "originalName": { "type": "string" },
-              "mimeType": { "type": "string" },
-              "size": { "type": "number" }
+              "originalName": {
+                "type": "string"
+              },
+              "mimeType": {
+                "type": "string"
+              },
+              "size": {
+                "type": "number"
+              }
             },
             "description": "File metadata (only present when uploaded)"
           },
-          "createdAt": { "type": "string", "format": "date-time" },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
           "uploadUrl": {
             "type": "string",
             "description": "URL to upload file to this session"
@@ -511,6 +812,158 @@
             "type": "string",
             "format": "date-time",
             "description": "Session expiration time (15 minutes after creation)"
+          }
+        }
+      },
+      "KycScoreResponse": {
+        "type": "object",
+        "properties": {
+          "kycScore": {
+            "type": "number"
+          },
+          "riskLevel": {
+            "type": "string",
+            "enum": [
+              "low",
+              "medium",
+              "high",
+              "critical"
+            ]
+          },
+          "recommendation": {
+            "type": "string",
+            "enum": [
+              "APPROVE",
+              "REVIEW",
+              "REJECT"
+            ]
+          },
+          "breakdown": {
+            "type": "object",
+            "properties": {
+              "ocrConfidence": {
+                "type": "number"
+              },
+              "livenessScore": {
+                "type": "number",
+                "nullable": true
+              },
+              "faceMatchScore": {
+                "type": "number",
+                "nullable": true
+              },
+              "amlClear": {
+                "type": "boolean",
+                "nullable": true
+              }
+            }
+          },
+          "verifiedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "LivenessResponse": {
+        "type": "object",
+        "properties": {
+          "isLive": {
+            "type": "boolean"
+          },
+          "confidence": {
+            "type": "number"
+          },
+          "attackType": {
+            "type": "string",
+            "nullable": true
+          },
+          "processingMs": {
+            "type": "number"
+          },
+          "scoreSmall": {
+            "type": "number"
+          },
+          "scoreLarge": {
+            "type": "number"
+          }
+        }
+      },
+      "FaceMatchResponse": {
+        "type": "object",
+        "properties": {
+          "match": {
+            "type": "boolean"
+          },
+          "similarity": {
+            "type": "number"
+          },
+          "confidence": {
+            "type": "string"
+          },
+          "distance": {
+            "type": "number"
+          },
+          "threshold": {
+            "type": "number"
+          },
+          "processingMs": {
+            "type": "number"
+          }
+        }
+      },
+      "AmlHit": {
+        "type": "object",
+        "properties": {
+          "entityId": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "score": {
+            "type": "number"
+          },
+          "datasets": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "topics": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "AmlScreenResponse": {
+        "type": "object",
+        "properties": {
+          "screened": {
+            "type": "boolean"
+          },
+          "riskLevel": {
+            "type": "string",
+            "enum": [
+              "low",
+              "medium",
+              "high",
+              "critical"
+            ]
+          },
+          "hits": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AmlHit"
+            }
+          },
+          "listsChecked": {
+            "type": "number"
+          },
+          "checkedAt": {
+            "type": "string",
+            "format": "date-time"
           }
         }
       }

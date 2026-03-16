@@ -45,7 +45,8 @@
               "guides/authentication",
               "guides/errors",
               "guides/webhooks",
-              "guides/mobile-handoff"
+              "guides/mobile-handoff",
+              "guides/self-hosting"
             ]
           },
           {
@@ -101,6 +102,15 @@
               "api-reference/endpoint/get-session",
               "api-reference/endpoint/upload-file",
               "api-reference/endpoint/consume-file"
+            ]
+          },
+          {
+            "group": "KYC & Identity",
+            "pages": [
+              "api-reference/endpoint/kyc-score",
+              "api-reference/endpoint/liveness-check",
+              "api-reference/endpoint/match-face",
+              "api-reference/endpoint/aml-screen"
             ]
           }
         ]
