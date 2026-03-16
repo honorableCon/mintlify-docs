@@ -1,65 +1,95 @@
 ---
-title: "Introduction"
-description: "Documentation développeurs Kiriku"
+title: Introduction
+description: "La plateforme unifiée pour l'identité et l'intelligence documentaire en Afrique de l'Ouest."
 ---
 
-## Commencer rapidement
+<img
+  className="block dark:hidden"
+  src="/images/hero-light.png"
+  alt="Hero Light"
+/>
+<img
+  className="hidden dark:block"
+  src="/images/hero-dark.png"
+  alt="Hero Dark"
+/>
 
-Démarrez en quelques minutes avec un compte, une clé API et une première extraction.
+## Explorez par produit
 
-<Columns cols={2}>
+<CardGroup cols={2}>
+  <Card
+    title="Document AI (OCR)"
+    icon="file-shield"
+    href="/guides/extractions"
+  >
+    Extraction instantanée de données depuis CNI, Passeports et documents administratifs.
+  </Card>
+  <Card
+    title="Identity & KYC"
+    icon="user-shield"
+    href="/api-reference/endpoint/kyc-score"
+  >
+    Vérification d'identité complète : Liveness, Face Match et AML Screening.
+  </Card>
+</CardGroup>
+
+## Démarrage rapide
+
+Intégrez Kiriku en moins de 5 minutes.
+
+<CardGroup cols={3}>
   <Card
     title="Quickstart"
     icon="rocket"
     href="/quickstart"
   >
-    Créer un compte, vérifier l’email, générer une clé API et lancer une extraction.
+    Obtenez votre clé API et lancez votre première requête.
   </Card>
   <Card
     title="Authentification"
     icon="key"
     href="/guides/authentication"
   >
-    JWT pour la console, API key pour votre backend.
-  </Card>
-</Columns>
-
-## Guides principaux
-
-<Columns cols={2}>
-  <Card
-    title="Extractions"
-    icon="file-search"
-    href="/guides/extractions"
-  >
-    Sync, async, batch, options et feedback.
+    Sécurisez vos appels API avec nos standards.
   </Card>
   <Card
-    title="Billing"
-    icon="credit-card"
-    href="/guides/billing"
+    title="SDK Mobile"
+    icon="mobile"
+    href="/guides/mobile-handoff"
   >
-    Packs, abonnements, paiements DexPay et webhooks.
+    Expérience fluide pour vos utilisateurs mobiles.
   </Card>
-</Columns>
+</CardGroup>
 
-## Référence API
+## Fonctionnalités Clés
 
-Référence complète par ressource.
-
-<Columns cols={2}>
+<CardGroup cols={2}>
   <Card
-    title="API reference"
-    icon="square-code"
-    href="/api-reference/introduction"
+    title="Liveness Detection"
+    icon="face-viewfinder"
+    href="/api-reference/endpoint/liveness-check"
   >
-    Tous les endpoints Kiriku.
+    Détectez les attaques de présentation (photos, écrans, masques) en temps réel.
+  </Card>
+  <Card
+    title="AML Screening"
+    icon="gavel"
+    href="/api-reference/endpoint/aml-screen"
+  >
+    Vérifiez vos clients contre les listes de sanctions mondiales et PEPs.
   </Card>
   <Card
     title="Webhooks"
     icon="webhook"
     href="/guides/webhooks"
   >
-    Signatures, événements et bonnes pratiques.
+    Recevez les résultats de vérification en temps réel sur votre backend.
   </Card>
-</Columns>
+  <Card
+    title="Smart Analytics"
+    icon="chart-mixed"
+    href="/guides/usage-analytics"
+  >
+    Suivez vos taux de conversion et détectez les fraudes.
+  </Card>
+</CardGroup>

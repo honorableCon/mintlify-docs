@@ -45,8 +45,7 @@
               "guides/authentication",
               "guides/errors",
               "guides/webhooks",
-              "guides/mobile-handoff",
-              "guides/self-hosting"
+              "guides/mobile-handoff"
             ]
           },
           {
