@@ -643,6 +643,143 @@
           }
         }
       }
+    },
+    "/v1/extract/batch": {
+      "post": {
+        "summary": "Extract Data (Batch)",
+        "description": "Upload up to 50 documents for batch processing. Returns a batch ID to poll for overall progress.",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "files": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "format": "binary"
+                    },
+                    "description": "Up to 50 document files."
+                  },
+                  "documentType": {
+                    "type": "string",
+                    "description": "Template to use for all documents."
+                  }
+                },
+                "required": [
+                  "files",
+                  "documentType"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Batch queued successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Batch"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/batches": {
+      "get": {
+        "summary": "List Batches",
+        "description": "Retrieve a paginated list of your batches and their overall status.",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "number",
+              "default": 1
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "number",
+              "default": 10
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Paginated list of batches",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "batches": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Batch"
+                      }
+                    },
+                    "total": {
+                      "type": "number"
+                    },
+                    "page": {
+                      "type": "number"
+                    },
+                    "totalPages": {
+                      "type": "number"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/batches/{id}": {
+      "get": {
+        "summary": "Get Batch Status",
+        "description": "Retrieve the current progress of a specific batch, along with all associated document extractions.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Batch details and extraction list",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "batch": {
+                      "$ref": "#/components/schemas/Batch"
+                    },
+                    "extractions": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/ExtractionResult"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -966,6 +1103,58 @@
             "format": "date-time"
           }
         }
+      },
+      "Batch": {
+        "type": "object",
+        "properties": {
+          "batchId": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "queued",
+              "processing",
+              "completed",
+              "partial_failure"
+            ]
+          },
+          "totalDocuments": {
+            "type": "number"
+          },
+          "completedCount": {
+            "type": "number"
+          },
+          "failedCount": {
+            "type": "number"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "BatchDetail": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Batch"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "extractions": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/ExtractionResult"
+                }
+              }
+            }
+          }
+        ]
       }
     }
   }

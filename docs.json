@@ -65,7 +65,10 @@
             "pages": [
               "api-reference/endpoint/extract",
               "api-reference/endpoint/extract-async",
-              "api-reference/endpoint/get-extraction"
+              "api-reference/endpoint/extract-batch",
+              "api-reference/endpoint/get-extraction",
+              "api-reference/endpoint/list-batches",
+              "api-reference/endpoint/get-batch"
             ]
           },
           {
